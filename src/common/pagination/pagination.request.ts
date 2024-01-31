@@ -24,3 +24,4 @@ export class PaginationRequest {
   getTake() {
     return this.take;
   }
+}

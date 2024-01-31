@@ -11,7 +11,7 @@ const providers = [TransactionManager];
 @Module({
   imports: [getTypeOrmModule(), ...modules],
   providers: [...providers],
-  exports: [...modules],
+  exports: [...modules, ...providers],
 })
 export class CoreModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

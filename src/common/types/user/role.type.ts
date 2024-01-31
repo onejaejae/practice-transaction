@@ -9,7 +9,7 @@ export class Role extends EnumType<Role>() {
     super();
   }
 
-  isAdmin(): boolean {
-    return this.code < Role.TEST.code;
+  isAdmin(role: Role): boolean {
+    return role.code === Role.ADMIN.code;
   }
 }

@@ -1,4 +1,4 @@
-import { IsDate, IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
 import { ItemType } from 'src/common/types/item/item.type';
 import { Item } from 'src/entities/item/item.entity';
 

@@ -5,6 +5,7 @@ import { ItemType } from 'src/common/types/item/item.type';
 export class ItemShowDto {
   @Exclude() private readonly _id: number;
   @Exclude() private readonly _userId: number;
+  @Exclude() private readonly _count: number;
   @Exclude() private readonly _type: ItemType;
   @Exclude() private readonly _expiredAt: Date;
   @Exclude() private readonly _createdAt: Date;
@@ -14,6 +15,7 @@ export class ItemShowDto {
   constructor(item: Item) {
     this._id = item.id;
     this._userId = item.userId;
+    this._count = item.count;
     this._type = item.type;
     this._expiredAt = item.expiredAt;
     this._createdAt = item.createdAt;
@@ -29,6 +31,11 @@ export class ItemShowDto {
   @Expose()
   get userId(): number {
     return this._userId;
+  }
+
+  @Expose()
+  get count(): number {
+    return this._count;
   }
 
   @Expose()

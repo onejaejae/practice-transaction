@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig, Configurations, DBConfig } from '.';
+import { AppConfig, Configurations, DBConfig, ServerConfig } from '.';
 
 @Injectable()
 export class ThingsConfigService {
@@ -12,5 +12,9 @@ export class ThingsConfigService {
 
   getDBConfig(): DBConfig {
     return this.configService.getOrThrow('DB');
+  }
+
+  getServer(): ServerConfig {
+    return this.configService.getOrThrow('SERVER');
   }
 }

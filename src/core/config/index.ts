@@ -1,3 +1,5 @@
+import { SessionOptions } from 'express-session';
+
 export interface AppConfig {
   PORT: string | number;
   ENV: string;
@@ -13,7 +15,12 @@ export interface DBConfig {
   DB_PORT: number | string;
 }
 
+export interface ServerConfig {
+  SESSION: SessionOptions;
+}
+
 export interface Configurations {
   APP: AppConfig;
   DB: DBConfig;
+  SERVER: ServerConfig;
 }

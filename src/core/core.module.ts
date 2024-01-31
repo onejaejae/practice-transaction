@@ -1,7 +1,8 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ThingsConfigModule } from './config/config.module';
 import { getTypeOrmModule } from './database/typeorm/typeorm.module';
 import { TransactionManager } from './database/typeorm/transaction.manager';
+import { TransactionMiddleware } from './middleware/transaction.middleware';
 
 const modules = [ThingsConfigModule];
 const providers = [TransactionManager];
@@ -12,4 +13,8 @@ const providers = [TransactionManager];
   providers: [...providers],
   exports: [...modules],
 })
-export class CoreModule {}
+export class CoreModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(TransactionMiddleware).forRoutes('*');
+  }
+}

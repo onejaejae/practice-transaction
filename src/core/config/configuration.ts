@@ -2,13 +2,12 @@ import { Configurations } from './index';
 import session from 'express-session';
 import pgSession from 'connect-pg-simple';
 
-const PostgresqlStore = pgSession(session);
-const sessionStore = new PostgresqlStore({
-  conString: process.env.CON_STRING,
-});
-
 export const configurations = (): Configurations => {
   const currentEnv = process.env.NODE_ENV;
+  const PostgresqlStore = pgSession(session);
+  const sessionStore = new PostgresqlStore({
+    conString: process.env.CON_STRING,
+  });
 
   return {
     APP: {

@@ -17,7 +17,7 @@ export default class UserSeeder implements Seeder {
         role: Role.ADMIN,
       },
       {
-        email: 'test@naver.com',
+        email: 'test2@naver.com',
         password: 'test',
         role: Role.TEST,
       },

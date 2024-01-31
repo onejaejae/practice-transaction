@@ -1,3 +1,5 @@
+import { User } from 'src/entities/user/user.entity';
+
 type ValueType = string | number | boolean;
 
 export type Union<
@@ -10,6 +12,6 @@ export type Union<
 
 declare module 'express-session' {
   interface SessionData {
-    credentials: any;
+    credentials: { user: User };
   }
 }

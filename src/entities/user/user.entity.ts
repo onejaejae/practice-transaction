@@ -1,5 +1,6 @@
 import { Role } from 'src/common/types/user/role.type';
 import { BaseEntity } from 'src/core/database/typeorm/base.entity';
+import { RoleTransformer } from 'src/core/database/typeorm/transformer/role.transformer';
 import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -14,6 +15,7 @@ export class User extends BaseEntity {
     type: 'varchar',
     length: 50,
     nullable: false,
+    transformer: new RoleTransformer(),
   })
   role: Role;
 }

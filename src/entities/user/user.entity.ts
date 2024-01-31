@@ -6,7 +6,7 @@ import { Item } from '../item/item.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-  @Column('varchar', { length: 40, nullable: false })
+  @Column('varchar', { length: 40, nullable: false, unique: true })
   email: string;
 
   @Column({ type: 'varchar', length: 16, nullable: false })
@@ -22,4 +22,8 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Item, (item) => item.User)
   Items: Item[];
+
+  isSamePassword(password: string) {
+    return this.password === password;
+  }
 }

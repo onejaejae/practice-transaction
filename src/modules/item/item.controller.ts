@@ -7,10 +7,10 @@ import { Role } from 'src/common/types/user/role.type';
 import { ItemShowDto } from 'src/common/response/item/itemShowDto';
 import { AuthGuard } from 'src/core/guard/auth.guard';
 import { CreateCommonItemQueryDto } from 'src/common/request/item/create-common-item.query.dto';
-import { UserDecorator } from 'src/core/decorator/user.decorator';
+import { Credentials } from 'src/core/decorator/credentials.decorator';
 import { User } from 'src/entities/user/user.entity';
 
-@Controller('item')
+@Controller('items')
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
@@ -18,7 +18,7 @@ export class ItemController {
   @Post('/common')
   async createCommonItem(
     @Query() createCommonItemQueryDto: CreateCommonItemQueryDto,
-    @UserDecorator() user: User,
+    @Credentials() user: User,
   ) {
     const item = await this.itemService.createCommonItem(
       user.id,

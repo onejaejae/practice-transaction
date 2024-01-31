@@ -27,3 +27,8 @@ export class User extends BaseEntity {
     return this.password === password;
   }
 }
+
+export class UserItemCount {
+  id: string;
+  totalCount: number;
+}

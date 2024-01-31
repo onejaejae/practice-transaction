@@ -20,6 +20,14 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
     return User.name;
   }
 
+  async getOrders(userId: number) {
+    return this.getQueryBuilder()
+      .leftJoinAndSelect('user.Items', 'item')
+      .andWhere('user.id = :userId', { userId })
+      .orderBy('item.createdAt', 'DESC')
+      .getOne();
+  }
+
   @TransformPlainToInstance(UserItemCount)
   async getUserItems(userId: number): Promise<UserItemCount> {
     return this.getQueryBuilder()
@@ -27,7 +35,7 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
       .addSelect('SUM(item.count)', 'totalCount')
       .leftJoin('user.Items', 'item')
       .andWhere('user.id = :userId', { userId })
-      .andWhere('(item.expired_at IS NULL OR item.expired_at > :currentDate)', {
+      .andWhere('(item.expiredAt IS NULL OR item.expiredAt > :currentDate)', {
         currentDate: new Date(),
       })
       .groupBy('user.id')

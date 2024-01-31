@@ -1,6 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Item } from 'src/entities/item/item.entity';
 import { ItemType } from 'src/common/types/item/item.type';
+import { PaginationResponse } from 'src/common/pagination/pagination.response';
 
 export class ItemShowDto {
   @Exclude() private readonly _id: number;
@@ -21,6 +22,14 @@ export class ItemShowDto {
     this._createdAt = item.createdAt;
     this._updatedAt = item.updatedAt;
     this._deletedAt = item.deletedAt;
+  }
+
+  static from(listPagination: PaginationResponse<Item>) {
+    listPagination.list = listPagination.list.map(
+      (item) => new ItemShowDto(item),
+    ) as any;
+
+    return listPagination;
   }
 
   @Expose()

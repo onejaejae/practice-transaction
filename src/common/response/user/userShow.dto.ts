@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Role } from '../types/user/role.type';
+import { Role } from '../../types/user/role.type';
 import { User } from 'src/entities/user/user.entity';
 
 export class UserShowDto {

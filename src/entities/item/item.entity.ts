@@ -20,6 +20,14 @@ export class Item extends BaseEntity {
   })
   type: ItemType;
 
+  static of(userId: number, count: number) {
+    const item = new Item();
+    item.userId = userId;
+    item.count = count;
+
+    return item;
+  }
+
   @Column({ type: 'timestamptz', default: null, nullable: true })
   expiredAt: Date | null;
 

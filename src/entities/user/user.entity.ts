@@ -1,7 +1,8 @@
 import { Role } from 'src/common/types/user/role.type';
 import { BaseEntity } from 'src/core/database/typeorm/base.entity';
 import { RoleTransformer } from 'src/core/database/typeorm/transformer/role.transformer';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Item } from '../item/item.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -18,4 +19,7 @@ export class User extends BaseEntity {
     transformer: new RoleTransformer(),
   })
   role: Role;
+
+  @OneToMany(() => Item, (item) => item.User)
+  Items: Item[];
 }

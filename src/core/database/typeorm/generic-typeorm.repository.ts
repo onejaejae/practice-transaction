@@ -41,13 +41,16 @@ export abstract class GenericTypeOrmRepository<T extends RootEntity> {
 
   async paginate(
     pagination: PaginationRequest,
-    findManyOption: FindManyOptions,
+    findManyOption: FindManyOptions<T>,
   ) {
     const { take, page } = pagination;
+    const options = {
+      take,
+      skip: (page - 1) * take,
+      ...findManyOption,
+    };
 
-    const [data, total] = await this.getRepository().findAndCount(
-      findManyOption,
-    );
+    const [data, total] = await this.getRepository().findAndCount(options);
 
     return new PaginationBuilder<T>()
       .setData(plainToInstance(this.classType, data))

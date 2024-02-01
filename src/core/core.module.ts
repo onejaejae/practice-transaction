@@ -3,8 +3,9 @@ import { ThingsConfigModule } from './config/config.module';
 import { getTypeOrmModule } from './database/typeorm/typeorm.module';
 import { TransactionManager } from './database/typeorm/transaction.manager';
 import { TransactionMiddleware } from './middleware/transaction.middleware';
+import { RedisModule } from './database/redis/redis.module';
 
-const modules = [ThingsConfigModule];
+const modules = [ThingsConfigModule, RedisModule];
 const providers = [TransactionManager];
 
 @Global()

@@ -48,6 +48,7 @@
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
     "@nestjs/typeorm": "^10.0.1",
+    "@testcontainers/postgresql": "^10.6.0",
     "@types/cls-hooked": "^4.3.8",
     "@types/connect-pg-simple": "^7.0.3",
     "@types/cookie-parser": "^1.4.6",

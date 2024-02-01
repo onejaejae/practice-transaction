@@ -32,7 +32,7 @@ export function Transactional() {
         );
 
       return await em.transaction(
-        'REPEATABLE READ',
+        process.env.NODE_ENV !== 'test' ? 'REPEATABLE READ' : 'SERIALIZABLE',
         async (tx: EntityManager) => {
           nameSpace.set(THINGS_ENTITY_MANAGER, tx);
           return await originMethod.apply(this, args);

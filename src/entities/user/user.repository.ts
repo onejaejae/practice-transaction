@@ -46,6 +46,7 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
     const results = await this.getQueryBuilder()
       .leftJoinAndSelect('user.Items', 'item')
       .andWhere('user.id = :userId', { userId })
+      .andWhere('item.count > 0')
       .andWhere('(item.expiredAt IS NULL OR item.expiredAt > :currentDate)', {
         currentDate: new Date(),
       })

@@ -4,7 +4,7 @@ import { Credentials } from 'src/core/decorator/credentials.decorator';
 import { User } from 'src/entities/user/user.entity';
 import { AuthGuard } from 'src/core/guard/auth.guard';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
-import { ItemShowDto } from 'src/common/response/item/itemShowDto';
+import { UserOrderListDto } from 'src/common/response/user/userItemList.dto';
 
 @Controller('users')
 export class UserController {
@@ -26,7 +26,7 @@ export class UserController {
       userOrderListQueryDto,
       user.id,
     );
-    return ItemShowDto.from(orders);
+    return UserOrderListDto.from(orders);
   }
 
   @UseGuards(AuthGuard)

@@ -23,7 +23,7 @@ yarn run test | npm run test
 어드민, 테스트 유저 계정 생성 시 해당 API를 실행해주세요.
 
 ```
-http://localhost:3000/api/users/mock
+POST http://localhost:3000/api/users/mock
 
 admin
 - email: "test@naver.com"

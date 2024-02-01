@@ -1,16 +1,19 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
 import { RedisDLM } from 'src/core/database/redis/redis.dml';
 import { Transactional } from 'src/core/decorator/transactional.decorator';
+import {
+  IItemRepository,
+  ItemRepositoryKey,
+} from 'src/entities/item/item-repository.interface';
 import { Item } from 'src/entities/item/item.entity';
-import { ItemRepository } from 'src/entities/item/item.repository';
 import { UserRepository } from 'src/entities/user/user.repository';
 import { FindManyOptions } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly itemRepository: ItemRepository,
+    @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
     private readonly redisDLM: RedisDLM,
   ) {}
 

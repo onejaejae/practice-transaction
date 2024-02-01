@@ -1,16 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateBonusItemDto } from 'src/common/request/item/create-bonus-item.dto';
 import { CreateCommonItemQueryDto } from 'src/common/request/item/create-common-item.query.dto';
 import { UpdateBonusItemDto } from 'src/common/request/item/update-bonus.item.dto';
 import { Transactional } from 'src/core/decorator/transactional.decorator';
-import { ItemRepository } from 'src/entities/item/item.repository';
+import {
+  IItemRepository,
+  ItemRepositoryKey,
+} from 'src/entities/item/item-repository.interface';
 import { UserRepository } from 'src/entities/user/user.repository';
 
 @Injectable()
 export class ItemService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly itemRepository: ItemRepository,
+    @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
   ) {}
 
   @Transactional()

@@ -20,6 +20,12 @@ export abstract class GenericTypeOrmRepository<T extends RootEntity>
   protected abstract readonly txManager: TransactionManager;
   constructor(private readonly classType: ClassConstructor<T>) {}
 
+  async insertMany(models: T[]): Promise<T[]> {
+    const results = await this.getRepository().save(models);
+
+    return results.map((res) => plainToInstance(this.classType, res));
+  }
+
   abstract getName(): EntityTarget<T>;
 
   async findOneOrThrow(filters: Partial<T>): Promise<T> {

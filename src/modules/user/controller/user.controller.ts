@@ -3,6 +3,7 @@ import {
   Get,
   Inject,
   Patch,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -21,6 +22,11 @@ export class UserController {
   constructor(
     @Inject(UserServiceKey) private readonly userService: IUserService,
   ) {}
+
+  @Post('/mock')
+  async mockUser() {
+    return this.userService.mockUser();
+  }
 
   @UseGuards(AuthGuard)
   @Patch('/item-use')

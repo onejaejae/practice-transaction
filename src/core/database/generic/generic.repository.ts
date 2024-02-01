@@ -7,6 +7,7 @@ export interface GenericRepository<T extends RootEntity> {
   findOneOrThrow(filters: Partial<T>): Promise<T>;
   findByIdOrThrow(id: number): Promise<T>;
   createEntity(model: T): Promise<T>;
+  insertMany(model: T[]): Promise<T[]>;
   deleteById(id: number);
   paginate(
     pagination: PaginationRequest,

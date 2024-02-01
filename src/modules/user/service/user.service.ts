@@ -16,6 +16,9 @@ import {
   IRedisDLM,
   RedisDLMKey,
 } from 'src/core/database/redis/redis-dml.interface';
+import { User } from 'src/entities/user/user.entity';
+import { plainToInstance } from 'class-transformer';
+import { Role } from 'src/common/types/user/role.type';
 @Injectable()
 export class UserService implements IUserService {
   constructor(
@@ -23,6 +26,21 @@ export class UserService implements IUserService {
     @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
     @Inject(RedisDLMKey) private readonly redisDLM: IRedisDLM,
   ) {}
+
+  mockUser(): Promise<User[]> {
+    return this.userRepository.insertMany([
+      plainToInstance(User, {
+        email: 'test@naver.com',
+        password: 'test',
+        role: Role.ADMIN,
+      }),
+      plainToInstance(User, {
+        email: 'test2@naver.com',
+        password: 'test',
+        role: Role.TEST,
+      }),
+    ]);
+  }
 
   @Transactional()
   async useItem(count: number, userId: number) {

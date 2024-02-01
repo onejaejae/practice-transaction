@@ -7,12 +7,15 @@ import {
   IItemRepository,
   ItemRepositoryKey,
 } from 'src/entities/item/item-repository.interface';
-import { UserRepository } from 'src/entities/user/user.repository';
+import {
+  IUserRepository,
+  UserRepositoryKey,
+} from 'src/entities/user/user-repository.interface';
 
 @Injectable()
 export class ItemService {
   constructor(
-    private readonly userRepository: UserRepository,
+    @Inject(UserRepositoryKey) private readonly userRepository: IUserRepository,
     @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
   ) {}
 

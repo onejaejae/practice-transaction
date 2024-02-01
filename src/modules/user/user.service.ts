@@ -7,12 +7,15 @@ import {
   ItemRepositoryKey,
 } from 'src/entities/item/item-repository.interface';
 import { Item } from 'src/entities/item/item.entity';
-import { UserRepository } from 'src/entities/user/user.repository';
+import {
+  IUserRepository,
+  UserRepositoryKey,
+} from 'src/entities/user/user-repository.interface';
 import { FindManyOptions } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(
-    private readonly userRepository: UserRepository,
+    @Inject(UserRepositoryKey) private readonly userRepository: IUserRepository,
     @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
     private readonly redisDLM: RedisDLM,
   ) {}

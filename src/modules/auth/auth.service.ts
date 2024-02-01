@@ -1,9 +1,15 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { LoginDto } from 'src/common/request/auth/login.dto';
-import { UserRepository } from 'src/entities/user/user.repository';
+import {
+  IUserRepository,
+  UserRepositoryKey,
+} from 'src/entities/user/user-repository.interface';
+
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject(UserRepositoryKey) private readonly userRepository: IUserRepository,
+  ) {}
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;

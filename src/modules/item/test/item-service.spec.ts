@@ -191,7 +191,7 @@ describe('item service test', () => {
       const mockUser = userFactory.mockUser();
       const user = await dataSource.manager.save(User, mockUser);
 
-      const mockItem = itemFactory.mockItem(user.id);
+      const mockItem = itemFactory.mockBonusItem(user.id);
       const item = await dataSource.manager.save(Item, mockItem);
 
       const updateBonusItemDto = itemFactory.generateUpdateBonusItemDto();

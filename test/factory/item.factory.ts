@@ -6,13 +6,32 @@ import { ItemType } from 'src/common/types/item/item.type';
 import { Item } from 'src/entities/item/item.entity';
 
 export class ItemFactory {
-  mockItem(userId) {
+  mockBonusItem(userId) {
     return plainToInstance(Item, {
       originalCount: 1000,
       count: 1000,
       userId,
       type: ItemType.BONUS,
-      expiredAt: new Date(),
+      expiredAt: new Date('2040-11-30'),
+    });
+  }
+
+  mockExpiredBonusItem(userId) {
+    return plainToInstance(Item, {
+      originalCount: 1000,
+      count: 1000,
+      userId,
+      type: ItemType.BONUS,
+      expiredAt: new Date('2022-11-30'),
+    });
+  }
+
+  mockCommonItem(userId) {
+    return plainToInstance(Item, {
+      originalCount: 1000,
+      count: 1000,
+      userId,
+      type: ItemType.COMMON,
     });
   }
 

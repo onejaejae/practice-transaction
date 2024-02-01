@@ -32,7 +32,7 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
   async getAvailableItemAmount(userId: number): Promise<AvaliableItemCount> {
     return this.getQueryBuilder()
       .select('user.id', 'id')
-      .addSelect('SUM(item.count)', 'totalCount')
+      .addSelect('SUM(COALESCE(item.count, 0))', 'totalCount')
       .leftJoin('user.Items', 'item')
       .andWhere('user.id = :userId', { userId })
       .andWhere('(item.expiredAt IS NULL OR item.expiredAt > :currentDate)', {

@@ -3,6 +3,7 @@ import { BaseEntity } from 'src/core/database/typeorm/base.entity';
 import { RoleTransformer } from 'src/core/database/typeorm/transformer/role.transformer';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Item } from '../item/item.entity';
+import { Type } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -30,5 +31,7 @@ export class User extends BaseEntity {
 
 export class AvaliableItemCount {
   id: string;
+
+  @Type(() => Number)
   totalCount: number;
 }

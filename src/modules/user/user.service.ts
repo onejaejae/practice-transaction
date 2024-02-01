@@ -22,8 +22,8 @@ export class UserService {
     for (const item of items) {
       if (remainingCount <= 0) break;
 
-      const deductedCount = item.caculateAmount(remainingCount);
-      const updatedItem = item.updateItem(deductedCount);
+      const deductedCount = item.caculateDeductedCount(remainingCount);
+      const updatedItem = item.useItem(deductedCount);
       updatedItems.push(updatedItem);
 
       remainingCount -= deductedCount;
@@ -31,7 +31,7 @@ export class UserService {
 
     if (remainingCount > 0) throw new BadRequestException('Not enough hearts');
 
-    await this.itemRepository.updateMany(updatedItems);
+    return this.itemRepository.updateMany(updatedItems);
   }
 
   async getOrders(

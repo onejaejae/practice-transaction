@@ -28,7 +28,7 @@ export class User extends BaseEntity {
   }
 }
 
-export class UserItemCount {
+export class AvaliableItemCount {
   id: string;
   totalCount: number;
 }

@@ -37,4 +37,15 @@ export class Item extends BaseEntity {
   })
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   User: User;
+
+  caculateAmount(remainingCount: number) {
+    return Math.min(remainingCount, this.count);
+  }
+
+  updateItem(deductedCount: number) {
+    this.count -= deductedCount;
+    if (this.count === 0 && !this.type.isCommon()) this.expiredAt = new Date();
+
+    return this;
+  }
 }

@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
+import { Transactional } from 'src/core/decorator/transactional.decorator';
 import { Item } from 'src/entities/item/item.entity';
 import { ItemRepository } from 'src/entities/item/item.repository';
 import { UserRepository } from 'src/entities/user/user.repository';
@@ -10,6 +11,28 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly itemRepository: ItemRepository,
   ) {}
+
+  @Transactional()
+  async useItem(count: number, userId: number) {
+    const items = await this.userRepository.getAvailableItems(userId);
+
+    let remainingCount = count;
+    const updatedItems = [];
+
+    for (const item of items) {
+      if (remainingCount <= 0) break;
+
+      const deductedCount = item.caculateAmount(remainingCount);
+      const updatedItem = item.updateItem(deductedCount);
+      updatedItems.push(updatedItem);
+
+      remainingCount -= deductedCount;
+    }
+
+    if (remainingCount > 0) throw new BadRequestException('Not enough hearts');
+
+    await this.itemRepository.updateMany(updatedItems);
+  }
 
   async getOrders(
     userOrderListQueryDto: UserOrderListQueryDto,
@@ -25,6 +48,6 @@ export class UserService {
   }
 
   async getItems(userId: number) {
-    return this.userRepository.getUserItems(userId);
+    return this.userRepository.getAvailableItemAmount(userId);
   }
 }

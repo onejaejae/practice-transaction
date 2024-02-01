@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Query, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Credentials } from 'src/core/decorator/credentials.decorator';
 import { User } from 'src/entities/user/user.entity';
@@ -9,6 +9,12 @@ import { ItemShowDto } from 'src/common/response/item/itemShowDto';
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @UseGuards(AuthGuard)
+  @Patch('/item-use')
+  async useItem(@Query('count') count: number, @Credentials() user: User) {
+    return this.userService.useItem(count, user.id);
+  }
 
   @UseGuards(AuthGuard)
   @Get('/orders')

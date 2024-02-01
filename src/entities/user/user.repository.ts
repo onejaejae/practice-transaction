@@ -1,5 +1,5 @@
 import { EntityTarget } from 'typeorm';
-import { User, UserItemCount } from './user.entity';
+import { User, AvaliableItemCount } from './user.entity';
 import { GenericTypeOrmRepository } from 'src/core/database/typeorm/generic-typeorm.repository';
 import { Injectable } from '@nestjs/common';
 import { TransactionManager } from 'src/core/database/typeorm/transaction.manager';
@@ -28,8 +28,8 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
       .getOne();
   }
 
-  @TransformPlainToInstance(UserItemCount)
-  async getUserItems(userId: number): Promise<UserItemCount> {
+  @TransformPlainToInstance(AvaliableItemCount)
+  async getAvailableItemAmount(userId: number): Promise<AvaliableItemCount> {
     return this.getQueryBuilder()
       .select('user.id', 'id')
       .addSelect('SUM(item.count)', 'totalCount')
@@ -40,5 +40,19 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
       })
       .groupBy('user.id')
       .getRawOne();
+  }
+
+  async getAvailableItems(userId: number) {
+    const results = await this.getQueryBuilder()
+      .leftJoinAndSelect('user.Items', 'item')
+      .andWhere('user.id = :userId', { userId })
+      .andWhere('(item.expiredAt IS NULL OR item.expiredAt > :currentDate)', {
+        currentDate: new Date(),
+      })
+      .orderBy('item.type', 'ASC')
+      .addOrderBy('item.expiredAt', 'ASC')
+      .getOne();
+
+    return results.Items;
   }
 }

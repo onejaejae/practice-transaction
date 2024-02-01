@@ -1,14 +1,26 @@
-import { Controller, Get, Patch, Query, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
+import {
+  Controller,
+  Get,
+  Inject,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { Credentials } from 'src/core/decorator/credentials.decorator';
 import { User } from 'src/entities/user/user.entity';
 import { AuthGuard } from 'src/core/guard/auth.guard';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
 import { UserOrderListDto } from 'src/common/response/user/userItemList.dto';
+import {
+  IUserService,
+  UserServiceKey,
+} from '../interface/user-service.interface';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    @Inject(UserServiceKey) private readonly userService: IUserService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Patch('/item-use')

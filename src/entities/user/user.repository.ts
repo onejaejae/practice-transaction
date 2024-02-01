@@ -4,9 +4,13 @@ import { GenericTypeOrmRepository } from 'src/core/database/typeorm/generic-type
 import { Injectable } from '@nestjs/common';
 import { TransactionManager } from 'src/core/database/typeorm/transaction.manager';
 import { TransformPlainToInstance } from 'class-transformer';
+import { IUserRepository } from './user-repository.interface';
 
 @Injectable()
-export class UserRepository extends GenericTypeOrmRepository<User> {
+export class UserRepository
+  extends GenericTypeOrmRepository<User>
+  implements IUserRepository
+{
   constructor(protected readonly txManager: TransactionManager) {
     super(User);
   }

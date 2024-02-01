@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
+import { RedisDLM } from 'src/core/database/redis/redis.dml';
 import { Transactional } from 'src/core/decorator/transactional.decorator';
 import { Item } from 'src/entities/item/item.entity';
 import { ItemRepository } from 'src/entities/item/item.repository';
@@ -10,10 +11,14 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly itemRepository: ItemRepository,
+    private readonly redisDLM: RedisDLM,
   ) {}
 
   @Transactional()
   async useItem(count: number, userId: number) {
+    const lockKey = userId + 'lock';
+    const identity = await this.redisDLM.acquireLock(lockKey);
+
     const items = await this.userRepository.getAvailableItems(userId);
 
     let remainingCount = count;
@@ -29,9 +34,15 @@ export class UserService {
       remainingCount -= deductedCount;
     }
 
-    if (remainingCount > 0) throw new BadRequestException('Not enough hearts');
+    if (remainingCount > 0) {
+      await this.redisDLM.releaseLock(lockKey, identity);
+      throw new BadRequestException('Not enough hearts');
+    }
 
-    return this.itemRepository.updateMany(updatedItems);
+    const results = await this.itemRepository.updateMany(updatedItems);
+    await this.redisDLM.releaseLock(lockKey, identity);
+
+    return results;
   }
 
   async getOrders(

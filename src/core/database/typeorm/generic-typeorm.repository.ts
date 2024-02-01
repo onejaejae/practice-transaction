@@ -11,9 +11,12 @@ import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { RootEntity } from './root.entity';
 import { PaginationBuilder } from 'src/common/pagination/pagination.builder';
 import { PaginationRequest } from 'src/common/pagination/pagination.request';
+import { GenericRepository } from '../generic/generic.repository';
 
 @Injectable()
-export abstract class GenericTypeOrmRepository<T extends RootEntity> {
+export abstract class GenericTypeOrmRepository<T extends RootEntity>
+  implements GenericRepository<T>
+{
   protected abstract readonly txManager: TransactionManager;
   constructor(private readonly classType: ClassConstructor<T>) {}
 

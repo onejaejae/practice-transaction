@@ -44,12 +44,12 @@ export class UserRepository extends GenericTypeOrmRepository<User> {
 
   async getAvailableItems(userId: number) {
     const results = await this.getQueryBuilder()
-      .leftJoinAndSelect('user.Items', 'item')
-      .andWhere('user.id = :userId', { userId })
-      .andWhere('item.count > 0')
-      .andWhere('(item.expiredAt IS NULL OR item.expiredAt > :currentDate)', {
-        currentDate: new Date(),
-      })
+      .leftJoinAndSelect(
+        'user.Items',
+        'item',
+        'item.count > 0 AND  (item.expired_at IS NULL OR item.expired_at > now())',
+      )
+      .where('user.id = :userId', { userId })
       .orderBy('item.type', 'ASC')
       .addOrderBy('item.expiredAt', 'ASC')
       .getOne();

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Inject,
   Param,
   Patch,
   Post,
@@ -8,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateBonusItemDto } from 'src/common/request/item/create-bonus-item.dto';
-import { ItemService } from './item.service';
+import { ItemService } from '../service/item.service';
 import { RoleGuard } from 'src/core/guard/role.guard';
 import { AllowRole } from 'src/core/decorator/roles.decorator';
 import { Role } from 'src/common/types/user/role.type';
@@ -18,10 +19,16 @@ import { CreateCommonItemQueryDto } from 'src/common/request/item/create-common-
 import { Credentials } from 'src/core/decorator/credentials.decorator';
 import { User } from 'src/entities/user/user.entity';
 import { UpdateBonusItemDto } from 'src/common/request/item/update-bonus.item.dto';
+import {
+  IItemService,
+  ItemServiceKey,
+} from '../interface/item-service.interface';
 
 @Controller('items')
 export class ItemController {
-  constructor(private readonly itemService: ItemService) {}
+  constructor(
+    @Inject(ItemServiceKey) private readonly itemService: IItemService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Post('/common')

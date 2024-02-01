@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    volumes:
-      - ./:/usr/src/my-app/
     ports:
       - '3000:3000'
     depends_on:
@@ -17,9 +15,9 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_DB=test
-      - POSTGRES_USER=test
-      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
   redis:
     image: 'redis:alpine'

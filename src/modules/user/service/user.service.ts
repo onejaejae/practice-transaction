@@ -1,6 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserOrderListQueryDto } from 'src/common/request/user/user-order-list.query.dto';
-import { RedisDLM } from 'src/core/database/redis/redis.dml';
 import { Transactional } from 'src/core/decorator/transactional.decorator';
 import {
   IItemRepository,
@@ -13,12 +12,16 @@ import {
 } from 'src/entities/user/user-repository.interface';
 import { FindManyOptions } from 'typeorm';
 import { IUserService } from '../interface/user-service.interface';
+import {
+  IRedisDLM,
+  RedisDLMKey,
+} from 'src/core/database/redis/redis-dml.interface';
 @Injectable()
 export class UserService implements IUserService {
   constructor(
     @Inject(UserRepositoryKey) private readonly userRepository: IUserRepository,
     @Inject(ItemRepositoryKey) private readonly itemRepository: IItemRepository,
-    private readonly redisDLM: RedisDLM,
+    @Inject(RedisDLMKey) private readonly redisDLM: IRedisDLM,
   ) {}
 
   @Transactional()

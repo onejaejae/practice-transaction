@@ -1,6 +1,7 @@
-import { FactoryProvider, Module } from '@nestjs/common';
+import { ClassProvider, FactoryProvider, Module } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { RedisDLM } from './redis.dml';
+import { RedisDLMKey } from './redis-dml.interface';
 
 const redisConnect: FactoryProvider = {
   provide: 'REDIS_CLIENT',
@@ -13,8 +14,13 @@ const redisConnect: FactoryProvider = {
   },
 };
 
+const redisDLM: ClassProvider = {
+  provide: RedisDLMKey,
+  useClass: RedisDLM,
+};
+
 @Module({
-  providers: [redisConnect, RedisDLM],
-  exports: [RedisDLM],
+  providers: [redisConnect, redisDLM],
+  exports: [redisDLM],
 })
 export class RedisModule {}

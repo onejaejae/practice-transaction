@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateBonusItemDto } from 'src/common/request/item/create-bonus-item.dto';
-import { ItemService } from '../service/item.service';
 import { RoleGuard } from 'src/core/guard/role.guard';
 import { AllowRole } from 'src/core/decorator/roles.decorator';
 import { Role } from 'src/common/types/user/role.type';

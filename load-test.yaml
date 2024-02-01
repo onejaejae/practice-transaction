@@ -1,0 +1,15 @@
+config:
+  target: http://localhost:3000
+  http:
+    timeout: 60
+  phases:
+    - duration: 1
+      arrivalRate: 30
+scenarios:
+  - flow:
+      - patch:
+          url: '/api/users/item-use'
+          qs:
+            count: 700
+          headers:
+            Cookie: 'connect.sid=s%3AS_nxq6s9OnQNDnLNcODJdVR3MCthoRNa.lKYJPBtPQjJnq1OFyWfbcKeOvfpPATKGM%2FE6mqd6D%2B8'

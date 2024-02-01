@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBonusItemDto } from 'src/common/request/item/create-bonus-item.dto';
 import { CreateCommonItemQueryDto } from 'src/common/request/item/create-common-item.query.dto';
+import { UpdateBonusItemDto } from 'src/common/request/item/update-bonus.item.dto';
 import { Transactional } from 'src/core/decorator/transactional.decorator';
 import { ItemRepository } from 'src/entities/item/item.repository';
 import { UserRepository } from 'src/entities/user/user.repository';
@@ -29,5 +30,16 @@ export class ItemService {
     const bonusItemEntiy = createBonusItemDto.toEntity();
 
     return this.itemRepository.createEntity(bonusItemEntiy);
+  }
+
+  @Transactional()
+  async updateBonusItem(
+    itemId: number,
+    updateBonusItemDto: UpdateBonusItemDto,
+  ) {
+    const item = await this.itemRepository.findByIdOrThrow(itemId);
+    const updatedItemEntity = item.updateItem(updateBonusItemDto.expiredAt);
+
+    return this.itemRepository.update(updatedItemEntity);
   }
 }

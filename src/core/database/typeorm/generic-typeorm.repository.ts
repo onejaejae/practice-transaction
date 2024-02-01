@@ -57,6 +57,12 @@ export abstract class GenericTypeOrmRepository<T extends RootEntity> {
       .build();
   }
 
+  async update(models: T): Promise<T> {
+    const res = await this.getRepository().save(models);
+
+    return plainToInstance(this.classType, res);
+  }
+
   async updateMany(models: T[]): Promise<T[]> {
     const results = await this.getRepository().save(models);
 

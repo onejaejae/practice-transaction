@@ -10,11 +10,15 @@ import { getTypeOrmModule } from './database/typeorm/typeorm.module';
 import { TransactionManager } from './database/typeorm/transaction.manager';
 import { TransactionMiddleware } from './middleware/transaction.middleware';
 import { RedisModule } from './database/redis/redis.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeORMExceptionFilter } from './filter/typeorm.exception.filter';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
 
 const modules = [ThingsConfigModule, RedisModule];
 const providers = [TransactionManager];
+const interceptors: ClassProvider[] = [
+  { provide: APP_INTERCEPTOR, useClass: ErrorInterceptor },
+];
 const filters: ClassProvider[] = [
   { provide: APP_FILTER, useClass: TypeORMExceptionFilter },
 ];
@@ -22,7 +26,7 @@ const filters: ClassProvider[] = [
 @Global()
 @Module({
   imports: [getTypeOrmModule(), ...modules],
-  providers: [...providers, ...filters],
+  providers: [...providers, ...interceptors, ...filters],
   exports: [...modules, ...providers],
 })
 export class CoreModule implements NestModule {

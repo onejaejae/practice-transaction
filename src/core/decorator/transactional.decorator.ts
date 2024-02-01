@@ -31,10 +31,13 @@ export function Transactional() {
           `Could not find EntityManager in ${THINGS_NAMESPACE} nameSpace`,
         );
 
-      return await em.transaction(async (tx: EntityManager) => {
-        nameSpace.set(THINGS_ENTITY_MANAGER, tx);
-        return await originMethod.apply(this, args);
-      });
+      return await em.transaction(
+        'REPEATABLE READ',
+        async (tx: EntityManager) => {
+          nameSpace.set(THINGS_ENTITY_MANAGER, tx);
+          return await originMethod.apply(this, args);
+        },
+      );
     }
 
     descriptor.value = transactionWrapped;

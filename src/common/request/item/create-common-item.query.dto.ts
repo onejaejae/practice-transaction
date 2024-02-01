@@ -7,7 +7,7 @@ export class CreateCommonItemQueryDto {
   @IsNumber()
   @IsNotEmpty()
   @Type(() => Number)
-  readonly count: number;
+  count: number;
 
   toEntity(userId: number) {
     const item = Item.of(userId, this.count);

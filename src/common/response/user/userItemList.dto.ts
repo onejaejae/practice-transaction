@@ -16,7 +16,7 @@ export class UserOrderListDto {
   constructor(item: Item) {
     this._id = item.id;
     this._userId = item.userId;
-    this._count = item.original_count;
+    this._count = item.originalCount;
     this._type = item.type;
     this._expiredAt = item.expiredAt;
     this._createdAt = item.createdAt;

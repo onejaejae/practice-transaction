@@ -5,11 +5,11 @@ import { Item } from 'src/entities/item/item.entity';
 export class CreateBonusItemDto {
   @IsNumber()
   @IsNotEmpty()
-  readonly userId: number;
+  userId: number;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly count: number;
+  count: number;
 
   @IsDateString()
   expiredAt: Date;

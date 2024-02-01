@@ -8,7 +8,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 @Entity({ name: 'items' })
 export class Item extends BaseEntity {
   @Column({ type: 'int', nullable: false, default: 0 })
-  original_count: number;
+  originalCount: number;
 
   @Column({ type: 'int', nullable: false, default: 0 })
   count: number;
@@ -38,7 +38,7 @@ export class Item extends BaseEntity {
     const item = new Item();
     item.userId = userId;
     item.count = count;
-    item.original_count = count;
+    item.originalCount = count;
 
     return item;
   }
